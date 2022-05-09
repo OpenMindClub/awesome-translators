@@ -1,2 +1,2 @@
-# -translators
+# translators
 Zotero  translators 
