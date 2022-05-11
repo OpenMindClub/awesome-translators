@@ -10,7 +10,7 @@
 4. Goodreads（Goodreads.js）
 5. CnkiScholar（CnkiScholar.js）
 6. 豆瓣电影 （DBMovie.js）
-7. 领研Linkresearch（LinkResearch.js）
+7. 领研Linkresearch（LinkResearch.js）  
 
 
 
