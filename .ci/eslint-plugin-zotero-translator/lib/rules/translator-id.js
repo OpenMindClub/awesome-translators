@@ -7,13 +7,13 @@ const uuid = require("uuid/v4");
 const translators = require("../translators").cache;
 const getHeaderFromAST = require("../translators").getHeaderFromAST;
 
-const deleted = new Set(
-	fs
-		.readFileSync(path.join(translators.repo, "deleted.txt"), "utf-8")
-		.split("\n")
-		.map((line) => line.split(" ")[0])
-		.filter((id) => id && id.indexOf("-") > 0)
-);
+// const deleted = new Set(
+// 	fs
+// 		.readFileSync(path.join(translators.repo, "deleted.txt"), "utf-8")
+// 		.split("\n")
+// 		.map((line) => line.split(" ")[0])
+// 		.filter((id) => id && id.indexOf("-") > 0)
+// );
 
 module.exports = {
 	meta: {
