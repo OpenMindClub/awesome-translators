@@ -43,7 +43,7 @@ TODO 剥削机器而非剥削人，为国内优质信息源新增 Translators，
 
 | Name | Path | Type | Author |
 |---|---|---|---|
-| 财新网 | [CaiXin.js](CaiXin.js) | 新增 | @TanGuangZhi @lirenchong |
+| 财新网 | [CaiXin.js](CaiXin.js) | 新增 | [氦客船长](@TanGuangZhi) @lirenchong |
 | Cnki Scholar | [CnkiScholar.js](CnkiScholar.js) | 新增 | @TanGuangZhi |
 | 豆瓣电影 | [DBMovie.js](DBMovie.js) | 新增 | @TanGuangZhi |
 | 豆瓣 | [DoubanSimple.js](DoubanSimple.js) | 优化 | @TanGuangZhi |
@@ -51,7 +51,7 @@ TODO 剥削机器而非剥削人，为国内优质信息源新增 Translators，
 | Google Scholar | [Google Scholar.js](Google%20Scholar.js) | 优化 | @TanGuangZhi |
 | 知识星球 | [KnowledgePlanet.js](KnowledgePlanet.js) | 新增 | @TanGuangZhi |
 | 36 氪 | [Kr36.js](Kr36.js) | 新增 | @TanGuangZhi |
-| 领研网 | [LinkResearch.js](LinkResearch.js) | 新增 | @TanGuangZhi |
+| 领研网 | [LinkResearcher.js](LinkResearcher.js) | 新增 | @TanGuangZhi |
 | Semantic Scholar | [Semantic Scholar.js](Semantic%20Scholar.js) | 优化 | @TanGuangZhi |
 | 少数派 | [SSPai.js](SSPai.js) | 新增 | @TanGuangZhi |
 | 微信公众号 | [Weixin.js](Weixin.js) | 优化 | @TanGuangZhi |
