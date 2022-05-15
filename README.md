@@ -37,6 +37,7 @@
 - 微信公众号 （Weixin.js）
 - 知乎 （Zhihu.js）
 - YouTube （YouTube.js）
+- 知网（RefWorks Tagged.js）
 
 ## 3. 背景
 
