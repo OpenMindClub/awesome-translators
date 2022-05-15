@@ -19,25 +19,25 @@ get_translator_id() {
 }
 
 get_translators_to_check() {
-	# If a PR branch has no conflicts with the master then git
-	# creates a custom merge commit where it merges PR into master.
+	# If a PR branch has no conflicts with the main then git
+	# creates a custom merge commit where it merges PR into main.
 	# Travis-CI tests on that commit instead of the HEAD of the PR branch.
 	#
 	# Thus below we first determine if HEAD is a merge commit by checking how
 	# many parents the current HEAD has. If number of parents > 1, then it's a merge commit
-	# in which case we need to diff translator names between HEAD^2 and PR split commit from master.
+	# in which case we need to diff translator names between HEAD^2 and PR split commit from main.
 	# The above will generally only be the case in CI or if using a custom PR pulling script which
 	# pulls the merge PR commit instead of just the PR branch.
 	#
-	# If the HEAD commit is not a merge then we diff HEAD with PR split commit from master. This is the case
+	# If the HEAD commit is not a merge then we diff HEAD with PR split commit from main. This is the case
 	# when running from a local development PR branch
 	#
 	# The branching point hash retrieval logic is based on https://stackoverflow.com/a/12185115/3199106
 
 	TRANSLATORS_TO_CHECK=""
 
-	# Push to master
-	if [ "${GITHUB_REF:-}" = "refs/heads/master" ]; then
+	# Push to main
+	if [ "${GITHUB_REF:-}" = "refs/heads/main" ]; then
 		before_commit=$(jq -r '.before' $(echo $GITHUB_EVENT_PATH))
 		TRANSLATORS_TO_CHECK=$(git diff $before_commit --name-only | { grep -e "^[^/]*.js$" || true; })
 	# Pull request
@@ -47,11 +47,11 @@ get_translators_to_check() {
 		# Size of $parent_commits array
 		num_parent_commits=${#parent_commits[@]}
 		if [ $num_parent_commits -gt 1 ]; then
-			first_parent=$(git rev-list --first-parent ^master HEAD^2 | tail -n1)
+			first_parent=$(git rev-list --first-parent ^main HEAD^2 | tail -n1)
 			branch_point=$(git rev-list "$first_parent^^!")
 			TRANSLATORS_TO_CHECK=$(git diff HEAD^2 $branch_point --name-only | { grep -e "^[^/]*.js$" || true; })
 		else
-			first_parent=$(git rev-list --first-parent ^master HEAD | tail -n1)
+			first_parent=$(git rev-list --first-parent ^main HEAD | tail -n1)
 			branch_point=$(git rev-list "$first_parent^^!")
 			TRANSLATORS_TO_CHECK=$(git diff $branch_point --name-only | { grep -e "^[^/]*.js$" || true; })
 		fi

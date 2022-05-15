@@ -11,7 +11,7 @@
 	"author": "kba+pz",
 	"license": "CC0-1.0",
 	"repository": {
-		"url": "https://github.com/zotero/translators/blob/master/.ci/"
+		"url": "https://github.com/zotero/translators/blob/main/.ci/"
 	},
 	"devDependencies": {
 		"@zotero/eslint-config": "^1.0.5",

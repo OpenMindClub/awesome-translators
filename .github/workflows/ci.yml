@@ -10,10 +10,10 @@ jobs:
         with:
           submodules: true
 
-      # We're in a shallow single-branch clone, so get the origin/master HEAD if not already on master
+      # We're in a shallow single-branch clone, so get the origin/main HEAD if not already on main
       # and get more history on the current branch so we can find the branch point
-      - run: git fetch origin master:master --depth=1
-        if: github.ref != 'refs/heads/master'
+      - run: git fetch origin main:main --depth=1
+        if: github.ref != 'refs/heads/main'
       - run: git fetch --update-shallow --depth=100 origin $(git rev-list HEAD)
 
       - name: Install Node
@@ -29,7 +29,7 @@ jobs:
       - name: Get current connector hash
         id: get-connector-hash
         run: |
-          echo "::set-output name=hash::$(git ls-remote https://github.com/zotero/zotero-connectors.git refs/heads/master | awk -F '\\s+' '{print $1}')"
+          echo "::set-output name=hash::$(git ls-remote https://github.com/zotero/zotero-connectors.git refs/heads/main | awk -F '\\s+' '{print $1}')"
         shell: bash
 
       - name: Cache connector code
