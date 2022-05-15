@@ -36,49 +36,52 @@ TODO 剥削机器而非剥削人，为国内优质信息源新增 Translators，
 
 ### 2.1 Translators 总览表
 
-| Name | Path | Tags | Contributors |
+| Path | Name | Tags | Contributors |
 |---|---|---|---|
-| 财新网 | [CaiXin.js](CaiXin.js) | 新增 | @TanGuangZhi @lirenchong |
-| CNKI Scholar | [CnkiScholar.js](CnkiScholar.js) | 新增 | @TanGuangZhi @lirenchong |
-| 豆瓣电影 | [DBMovie.js](DBMovie.js) | 新增 | @TanGuangZhi @lirenchong |
-| 豆瓣 | [DoubanSimple.js](DoubanSimple.js) | 优化 | @TanGuangZhi @lirenchong |
-| Goodreads | [Goodreads.js](Goodreads.js) | 新增 | @TanGuangZhi @lirenchong |
-| Google Scholar | [Google Scholar.js](Google%20Scholar.js) | 优化 | @TanGuangZhi @lirenchong |
-| 知识星球 | [KnowledgePlanet.js](KnowledgePlanet.js) | 新增 | @TanGuangZhi @lirenchong |
-| 36 氪 | [Kr36.js](Kr36.js) | 新增 | @TanGuangZhi @lirenchong |
-| 领研网 | [LinkResearcher.js](LinkResearcher.js) | 新增 | @TanGuangZhi @lirenchong |
-| Semantic Scholar | [Semantic Scholar.js](Semantic%20Scholar.js) | 优化 | @TanGuangZhi @lirenchong |
-| 少数派 | [SSPai.js](SSPai.js) | 新增 | @TanGuangZhi @lirenchong |
-| 微信公众号 | [Weixin.js](Weixin.js) | 优化 | @TanGuangZhi @lirenchong |
-| YouTube | [YouTube.js](YouTube.js) | 优化 | @TanGuangZhi @lirenchong |
+| [CaiXin.js](CaiXin.js) | 财新网 | 新增 | @TanGuangZhi @lirenchong |
+| [CnkiScholar.js](CnkiScholar.js) | CNKI Scholar | 新增 | @TanGuangZhi @lirenchong |
+| [DBMovie.js](DBMovie.js) | 豆瓣电影 | 新增 | @TanGuangZhi @lirenchong |
+| [DoubanSimple.js](DoubanSimple.js) | 豆瓣 | 优化 | @TanGuangZhi @lirenchong |
+| [Goodreads.js](Goodreads.js) | Goodreads | 新增 | @TanGuangZhi @lirenchong |
+| [Google Scholar.js](Google%20Scholar.js) | Google Scholar | 优化 | @TanGuangZhi @lirenchong |
+| [KnowledgePlanet.js](KnowledgePlanet.js) | 知识星球 | 新增 | @TanGuangZhi @lirenchong |
+| [Kr36.js](Kr36.js) | 36 氪 | 新增 | @TanGuangZhi @lirenchong |
+| [LinkResearcher.js](LinkResearcher.js) | 领研网 | 新增 | @TanGuangZhi @lirenchong |
+| [Semantic Scholar.js](Semantic%20Scholar.js) | Semantic Scholar | 优化 | @TanGuangZhi @lirenchong |
+| [RefWorks Tagged.js](RefWorks%20Tagged.js) | 知网 RefWorks | 新增 | @elexingyu |
+| [SSPai.js](SSPai.js) | 少数派 | 新增 | @TanGuangZhi @lirenchong |
+| [Weixin.js](Weixin.js) | 微信公众号 | 优化 | @TanGuangZhi @lirenchong |
+| [YouTube.js](YouTube.js) | YouTube | 优化 | @TanGuangZhi @lirenchong |
 
 ### 2.2 Translators 功能清单
 
-- 财新网 | [CaiXin.js](CaiXin.js)
+- [CaiXin.js](CaiXin.js) | 财新网
     - TODO 功能待补充
-- CNKI Scholar | [CnkiScholar.js](CnkiScholar.js)
+- [CnkiScholar.js](CnkiScholar.js) | CNKI Scholar
     - TODO 功能待补充
-- 豆瓣电影 | [DBMovie.js](DBMovie.js)
+- [DBMovie.js](DBMovie.js) | 豆瓣电影
     - TODO 功能待补充
-- 豆瓣 | [DoubanSimple.js](DoubanSimple.js)
+- [DoubanSimple.js](DoubanSimple.js) | 豆瓣
     - TODO 功能待补充
-- Goodreads | [Goodreads.js](Goodreads.js)
+- [Goodreads.js](Goodreads.js) | Goodreads
     - TODO 功能待补充
-- Google Scholar | [Google Scholar.js](Google%20Scholar.js)
+- [Google Scholar.js](Google%20Scholar.js)
     - TODO 功能待补充
-- 知识星球 | [KnowledgePlanet.js](KnowledgePlanet.js)
+- [KnowledgePlanet.js](KnowledgePlanet.js)
     - TODO 功能待补充
-- 36 氪 | [Kr36.js](Kr36.js)
+- [Kr36.js](Kr36.js) | 36 氪
     - TODO 功能待补充
-- 领研网 | [LinkResearcher.js](LinkResearcher.js)  
+- [LinkResearcher.js](LinkResearcher.js)
     - TODO 功能待补充
-- Semantic Scholar | [Semantic Scholar.js](Semantic%20Scholar.js)
+- [Semantic Scholar.js](Semantic%20Scholar.js)
     - TODO 功能待补充
-- 少数派 | [SSPai.js](SSPai.js)
+- [RefWorks Tagged.js](RefWorks%20Tagged.js)
     - TODO 功能待补充
-- 微信公众号 | [Weixin.js](Weixin.js)
+- [SSPai.js](SSPai.js) | 少数派
     - TODO 功能待补充
-- YouTube | [YouTube.js](YouTube.js)
+- [Weixin.js](Weixin.js)
+    - TODO 功能待补充
+- [YouTube.js](YouTube.js)
     - TODO 功能待补充
 
 ## 3. Contributing
