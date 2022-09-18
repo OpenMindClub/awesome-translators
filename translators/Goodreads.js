@@ -9,7 +9,7 @@
 	"inRepository": true,
 	"translatorType": 4,
 	"browserSupport": "gcsibv",
-	"lastUpdated": "2021-06-16 10:17:40"
+	"lastUpdated": "2022-09-18 13:24:46"
 }
 
 /*
@@ -76,143 +76,156 @@ function doWeb(doc, url) {
 	}
 }
 
-function scrape(doc, url){
-	var newItem = new Zotero.Item("book");
-	
-	// title
-	let GrTitle = ZU.xpathText(doc, '//h1[@id="bookTitle"]')
-	newItem.title = GrTitle
-	
-	// author
-	let authorList = ZU.xpathText(doc, '//span[@itemprop="name"]')
-	authorList = authorList.split(",")
-	let author = ""
-	for(i=0;i<authorList.length;i++){
-		author = authorList[i]
-		// 拆分lastname与firstname
-		author = ZU.cleanAuthor(author, 'author') 
-		newItem.creators.push({firstName:author.firstName,
-							lastName:author.lastName, 
-							creatorType:"author",
-							fieldMode:true});
-	}
-	
-	// 摘要
-	let GrAbstractList = ZU.xpath(doc, '//div[@id="description"]/span')
-	if(GrAbstractList.length>0){
-		let GrAbstract = GrAbstractList[0].innerHTML
-		if(GrAbstractList.length>1){
-			GrAbstract = GrAbstractList[1].innerHTML
+function scrape(doc, url) {
+	try {
+		let newItem = new Zotero.Item("book");
+
+		// title
+		let GrTitle = ZU.xpathText(doc, '//h1[@id="bookTitle"]')
+		newItem.title = GrTitle
+
+		// author
+		let authorList = ZU.xpathText(doc, '//span[@itemprop="name"]') || []
+		// authorList =null
+		authorList = authorList.split(",")
+		let author = ""
+		for (i = 0; i < authorList.length; i++) {
+			author = authorList[i]
+			// 拆分lastname与firstname
+			author = ZU.cleanAuthor(author, 'author')
+			newItem.creators.push({
+				firstName: author.firstName,
+				lastName: author.lastName,
+				creatorType: "author",
+				fieldMode: true
+			});
 		}
-		GrAbstract = GrAbstract.replace(/<br>/g,"\n")
-		GrAbstract = GrAbstract.replace(/<\/?\w+>/g,"")
-		newItem.abstractNote = GrAbstract
+
+		// 摘要
+		let GrAbstractList = ZU.xpath(doc, '//div[@id="description"]/span') || []
+		if (GrAbstractList.length > 0) {
+			let GrAbstract = GrAbstractList[0].innerHTML
+			if (GrAbstractList.length > 1) {
+				GrAbstract = GrAbstractList[1].innerHTML
+			}
+			GrAbstract = GrAbstract.replace(/<br>/g, "\n")
+			GrAbstract = GrAbstract.replace(/<\/?\w+>/g, "")
+			newItem.abstractNote = GrAbstract
+		}
+
+
+		// 评分
+		let nowTime = getNowFormatTime()
+		let GrScore = ZU.xpathText(doc, '//span[@itemprop="ratingValue"]') || ""
+		GrScore = GrScore.trim()
+		if (GrScore === "  " || GrScore === "") {
+			GrScore = "?"
+		}
+		GrScore = "G" + GrScore + " 📆" + nowTime
+		newItem.extra = GrScore
+
+		// ratings
+		let GrRatingsList = ZU.xpath(doc, '//meta[@itemprop="ratingCount"]') || []
+		let GrRatings = GrRatingsList[0].content
+		GrRatings = GrRatings.trim() + " ratings"
+		if (GrRatings === "  " || GrRatings === "") {
+			GrRatings = "?"
+		}
+		newItem.place = GrRatings
+
+		// pages
+		let pages = ZU.xpathText(doc, '//span[@itemprop="numberOfPages"]')
+		newItem.numPages = pages
+
+		// Published Time → date字段
+		let publishedTimeList = ZU.xpath(doc, '//div[@class="uitext darkGreyText"]/div[@class="row" and contains(text(),"Published")]') || []
+		let publishedTime = ""
+		let publisher = "" // 出版社
+		if (publishedTimeList.legth) {
+			publishedTime = publishedTimeList[0].innerText
+			if (publishedTime.includes("(first published")) {
+				publishedTime.match(/(.*) \((.*)\)/g)
+				publishedTime = RegExp.$2
+				publisher = RegExp.$1
+				publishedTime = publishedTime.replace(/first published /g, "")
+				publisher.match(/.* by (.*)/g)
+				publisher = RegExp.$1
+			} else {
+				publishedTime.match(/Published(.+)by(.+)/g)
+				publishedTime = RegExp.$1
+				publisher = RegExp.$2
+			}
+
+			// 英文格式的日期转yyyy-MM-dd
+			if (publishedTime) {
+				publishedTime = stringDateToNum(publishedTime)
+			}
+			newItem.date = publishedTime
+			newItem.publisher = publisher
+		}
+
+		// ISBN
+		let GrISBN = ZU.xpathText(doc, '//div[@class="clearFloats"]/div[@class="infoBoxRowItem"]/span')
+		newItem.ISBN = GrISBN
+
+		// Kindle价格 → rights字段 这里需要是美区IP才能显示Kindle价格
+		let price = ZU.xpathText(doc, '//ul[@class="buyButtonBar left"]/li/a[contains(text(),"Kindle Store")]')
+		if (price) {
+			price = "$" + price.match(/\d+\.?\d+/g)[0]
+			newItem.rights = price
+		}
+		
+		newItem.url = url
+		newItem.complete();
+	}
+	catch(error){
+		let newItem = new Zotero.Item("book");
+		const errorMessage = "\n看上去你遇到了一个报错，请联系我 please send this error to <TanGuangZhi@foxmail.com> "
+		newItem.title = "oh no error" 
+		newItem.abstractNote = error+errorMessage
+		newItem.url = url
+		newItem.complete();
 	}
 
-	
-	// 评分
-	let nowTime = getNowFormatTime()
-	let GrScore = ZU.xpathText(doc, '//span[@itemprop="ratingValue"]')
-	GrScore= GrScore.trim()
-	if(GrScore==="  "||GrScore===""){
-		GrScore = "?"
-	}
-	GrScore = "G"+GrScore+" 📆"+nowTime
-	newItem.extra = GrScore
-	
-	// ratings
-	let GrRatingsList = ZU.xpath(doc, '//meta[@itemprop="ratingCount"]')
-	let GrRatings = GrRatingsList[0].content
-	GrRatings= GrRatings.trim()+" ratings"
-	if(GrRatings==="  "||GrRatings===""){
-		GrRatings = "?"
-	}
-	newItem.place = GrRatings
-	
-	// pages
-	let pages = ZU.xpathText(doc, '//span[@itemprop="numberOfPages"]')
-	newItem.numPages = pages
-	
-	// Published Time → date字段
-	let publishedTimeList = ZU.xpath(doc, '//div[@class="uitext darkGreyText"]/div[@class="row" and contains(text(),"Published")]')
-	let publishedTime = ""
-	let publisher = "" // 出版社
-	if(publishedTimeList){
-		publishedTime = publishedTimeList[0].innerText
-		if(publishedTime.includes("(first published")){
-			publishedTime.match(/(.*) \((.*)\)/g)
-			publishedTime = RegExp.$2
-			publisher = RegExp.$1
-			publishedTime = publishedTime.replace(/first published /g,"")
-			publisher.match(/.* by (.*)/g)
-			publisher = RegExp.$1
-		} else{
-			publishedTime.match(/Published(.+)by(.+)/g)
-			publishedTime = RegExp.$1
-			publisher = RegExp.$2
-		}
-	
-		// 英文格式的日期转yyyy-MM-dd
-		if(publishedTime){
-			publishedTime = stringDateToNum(publishedTime)
-		}
-		newItem.date = publishedTime
-		newItem.publisher = publisher
-	}
-	
-	// ISBN
-	let GrISBN = ZU.xpathText(doc, '//div[@class="clearFloats"]/div[@class="infoBoxRowItem"]/span')
-	newItem.ISBN = GrISBN
-	
-	// Kindle价格 → rights字段 这里需要是美区IP才能显示Kindle价格
-	let price = ZU.xpathText(doc, '//ul[@class="buyButtonBar left"]/li/a[contains(text(),"Kindle Store")]')
-	if(price){
-		price = "$"+price.match(/\d+\.?\d+/g)[0]
-		newItem.rights = price
-	}
-	// URL
-	newItem.url = url
-	
-	newItem.complete();
 }
 
 //  March 3rd 2019 中March转2019-03-03
-function stringDateToNum(stringDate){
+function stringDateToNum(stringDate) {
 	let string2Month = {
-			January:"01",
-			February:"02",
-			March:"03",
-			April:"04",
-			May:"05",
-			June:"06",
-			July:"07",
-			August:"08",
-			September:"09",
-			October:"10",
-			November:"11",
-			December:"12"
-	}	
+		January: "01",
+		February: "02",
+		March: "03",
+		April: "04",
+		May: "05",
+		June: "06",
+		July: "07",
+		August: "08",
+		September: "09",
+		October: "10",
+		November: "11",
+		December: "12"
+	}
 	let stringDateList = stringDate.match(/\w+/g)
 	let year = ""
 	let month = ""
 	let day = ""
 	let temp = ""
 	// 应对某些书籍没有月日的情况
-	if(stringDateList.length>2){
+	if (stringDateList.length > 2) {
 		year = stringDateList[2]
 		month = stringDateList[0]
 		day = stringDateList[1]
 		month = string2Month[month]
 		day = day.match(/\d+/g)[0]
-		if(day.length<2){ // day不足2位补零
-			day = "0"+day
+		if (day.length < 2) { // day不足2位补零
+			day = "0" + day
 		}
-		temp = year+"-"+month+"-"+day
-	} else if (stringDateList.length>1){
+		temp = year + "-" + month + "-" + day
+	} else if (stringDateList.length > 1) {
 		year = stringDateList[1]
 		month = stringDateList[0]
 		month = string2Month[month]
-		temp = year+"-"+month
+		temp = year + "-" + month
 	} else {
 		year = stringDateList[0]
 		temp = year
@@ -223,31 +236,31 @@ function stringDateToNum(stringDate){
 //获取当前日期，格式YYYY-MM-DD
 function getNowFormatDay(nowDate) {
 	var char = "-";
-	if(nowDate == null){
+	if (nowDate == null) {
 		nowDate = new Date();
 	}
 	var day = nowDate.getDate();
 	var month = nowDate.getMonth() + 1;//注意月份需要+1
 	var year = nowDate.getFullYear();
 	//补全0，并拼接
-	return year + char + completeDate(month) + char +completeDate(day);
+	return year + char + completeDate(month) + char + completeDate(day);
 }
 
 //获取当前时间，格式YYYY-MM-DD HH:mm:ss
 function getNowFormatTime() {
-		var nowDate = new Date();
-		var colon = ":";
-		var h = nowDate.getHours();
-		var m = nowDate.getMinutes();
-		var s = nowDate.getSeconds();
-		//补全0，并拼接
-		return getNowFormatDay(nowDate) + " " + completeDate(h) + colon + completeDate(m) + colon + completeDate(s);
-	}
-	
+	var nowDate = new Date();
+	var colon = ":";
+	var h = nowDate.getHours();
+	var m = nowDate.getMinutes();
+	var s = nowDate.getSeconds();
+	//补全0，并拼接
+	return getNowFormatDay(nowDate) + " " + completeDate(h) + colon + completeDate(m) + colon + completeDate(s);
+}
+
 //补全0
 function completeDate(value) {
-		return value < 10 ? "0"+value:value;
-	}
+	return value < 10 ? "0" + value : value;
+}
 
 
 
@@ -283,3 +296,7 @@ function completeDate(value) {
 
 
 
+/** BEGIN TEST CASES **/
+var testCases = [
+]
+/** END TEST CASES **/
