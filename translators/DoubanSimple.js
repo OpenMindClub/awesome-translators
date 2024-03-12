@@ -49,7 +49,7 @@
 
 
 function detectWeb(doc, url) {
-	var pattern = /subject_search|doulist|people\/[a-zA-Z._]*?\/(?:do|wish|collect)|.*?status=(?:do|wish|collect)|group\/[0-9]*?\/collection|tag/;
+	var pattern = /subject_search|doulist|people\/[a-zA-Z.0-9_]*?\/(?:do|wish|collect)|.*?status=(?:do|wish|collect)|group\/[0-9]*?\/collection|tag/;
 
 	if (pattern.test(url)) {
 		return "multiple";
@@ -62,7 +62,8 @@ function detectWeb(doc, url) {
 function detectTitles(doc, url) {
 	
 	var pattern = /\.douban\.com\/tag\//;
-	if (pattern.test(url)) {
+ 	var pattern2 = /people\/[a-zA-Z0-9._]*?\/(?:do|wish|collect)|.*?status=(?:do|wish|collect)/;
+	if (pattern.test(url)|| pattern2.test(url)) {
 		return ZU.xpath(doc, '//div[@class="info"]/h2/a');
 	} else {
 		return ZU.xpath(doc, '//div[@class="title"]/a');
